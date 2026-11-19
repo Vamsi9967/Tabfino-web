@@ -1,0 +1,665 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Tabfino</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Tabfino is a free Chrome extension that remembers the tabs you choose to save, groups them into workflows, and helps you pick up your browser work after an interruption.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Tabfino, a free Chrome extension to return to your browser work">
+<meta property="og:description" content="Reopen one page or a whole session after an interruption. Your browser metadata stays on your device.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%232563EB'/%3E%3Cpath d='M9 10h14v3h-5.5v9h-3v-9H9z' fill='white'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap">
+<style>
+/* Layout A: floating nav, centered hero with a drawn product mockup, alternating flat bands, legal pages as hash views. Light theme only, flat backgrounds, one blue accent. */
+:root{
+  --sp-0:0;--sp-25:2px;--sp-50:4px;--sp-75:8px;--sp-100:12px;--sp-200:16px;--sp-300:24px;--sp-400:32px;--sp-500:40px;--sp-600:48px;--sp-700:64px;--sp-800:80px;--sp-900:96px;
+  --r-lg:8px;--r-xl:12px;--r-2xl:16px;--r-3xl:24px;
+  --bg:#FFFFFF;--bg-alt:#FAFAFA;--line:#E5E5E5;--fg:#0A0A0A;--muted:#5C5C5C;
+  --accent:#2563EB;--accent-hover:#1D4ED8;--accent-soft:#EFF4FF;--on-accent:#FFFFFF;
+  --ease:cubic-bezier(0.22,1,0.36,1);
+  --font:'Geist',system-ui,-apple-system,'Segoe UI',sans-serif;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:auto}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);font-size:16px;line-height:24px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4,p,ul,ol,figure{margin:0}
+ul,ol{padding:0;list-style:none}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit}
+svg.i{width:20px;height:20px;flex:none;fill:currentColor}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:var(--r-lg)}
+[hidden]{display:none!important}
+
+/* named text styles */
+.heading-1{font-size:60px;line-height:60px;font-weight:600;text-wrap:balance}
+.heading-2{font-size:48px;line-height:48px;font-weight:600;text-wrap:balance}
+.heading-3{font-size:36px;line-height:40px;font-weight:600;text-wrap:balance}
+.heading-4{font-size:30px;line-height:36px;font-weight:600;text-wrap:balance}
+.heading-5{font-size:24px;line-height:32px;font-weight:600;text-wrap:balance}
+.heading-6{font-size:20px;line-height:28px;font-weight:600;text-wrap:balance}
+.title-1{font-size:20px;line-height:28px;font-weight:500;text-wrap:balance}
+.title-2{font-size:18px;line-height:28px;font-weight:500;text-wrap:balance}
+.title-3{font-size:16px;line-height:24px;font-weight:500}
+.title-4{font-size:14px;line-height:20px;font-weight:500}
+.title-5{font-size:12px;line-height:16px;font-weight:500}
+.body-1{font-size:16px;line-height:24px;font-weight:600;text-wrap:pretty}
+.body-2{font-size:16px;line-height:24px;font-weight:500;text-wrap:pretty}
+.body-3{font-size:16px;line-height:24px;font-weight:400;text-wrap:pretty}
+.body-4{font-size:14px;line-height:20px;font-weight:600;text-wrap:pretty}
+.body-5{font-size:14px;line-height:20px;font-weight:500;text-wrap:pretty}
+.body-6{font-size:14px;line-height:20px;font-weight:400;text-wrap:pretty}
+.button-lg{font-size:18px;line-height:28px;font-weight:600}
+.button-md{font-size:16px;line-height:24px;font-weight:600}
+.button-sm{font-size:14px;line-height:20px;font-weight:600}
+.caption-1{font-size:14px;line-height:20px;font-weight:500}
+.caption-2{font-size:14px;line-height:20px;font-weight:400}
+.caption-3{font-size:12px;line-height:16px;font-weight:600}
+.caption-4{font-size:12px;line-height:16px;font-weight:500}
+.caption-5{font-size:12px;line-height:16px;font-weight:400}
+.muted{color:var(--muted)}
+.accent{color:var(--accent)}
+@media (max-width:640px){
+  .heading-1{font-size:36px;line-height:40px}
+  .heading-2{font-size:30px;line-height:36px}
+  .heading-3{font-size:24px;line-height:32px}
+  .heading-4{font-size:24px;line-height:32px}
+}
+
+/* structure */
+.container{max-width:1120px;margin-inline:auto;padding-left:max(var(--sp-300),env(safe-area-inset-left,0px));padding-right:max(var(--sp-300),env(safe-area-inset-right,0px))}
+@media (max-width:640px){.container{padding-left:max(var(--sp-200),env(safe-area-inset-left,0px));padding-right:max(var(--sp-200),env(safe-area-inset-right,0px))}}
+.band{padding-block:var(--sp-900)}
+.band.alt{background:var(--bg-alt)}
+@media (max-width:640px){.band{padding-block:var(--sp-700)}}
+.section-head{display:flex;flex-direction:column;align-items:center;text-align:center;gap:var(--sp-200);margin:0 auto var(--sp-600);max-width:680px}
+.section-head p{max-width:680px}
+.eyebrow{display:inline-flex;align-items:center;gap:var(--sp-75);padding:var(--sp-50) var(--sp-100);border:1px solid var(--line);border-radius:var(--r-2xl);background:var(--bg);color:var(--accent)}
+.band.alt .eyebrow{background:var(--bg)}
+.skip{position:absolute;left:var(--sp-200);top:var(--sp-200);z-index:100;padding:var(--sp-75) var(--sp-100);background:var(--fg);color:#fff;border-radius:var(--r-lg);transform:translateY(-200%)}
+.skip:focus{transform:translateY(0)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--sp-75);min-height:44px;padding:var(--sp-75) var(--sp-100);border-radius:var(--r-lg);border:1px solid transparent;cursor:pointer;background:var(--accent);color:var(--on-accent);transition:transform 500ms var(--ease),background-color 300ms var(--ease),opacity 300ms var(--ease)}
+.btn:hover{background:var(--accent-hover);transform:translateY(-1px)}
+.btn:active{transform:scale(0.98)}
+.btn.ghost{background:var(--bg);color:var(--fg);border-color:var(--line)}
+.btn.ghost:hover{background:var(--bg-alt)}
+.btn.on-accent{background:#fff;color:var(--fg)}
+.btn.on-accent:hover{background:var(--accent-soft)}
+.link{color:var(--accent);text-decoration:underline;text-underline-offset:4px;cursor:pointer;transition:opacity 300ms var(--ease)}
+.link:hover{opacity:.8}
+
+/* navigation */
+.nav{position:fixed;top:calc(env(safe-area-inset-top,0px) + var(--sp-200));left:50%;transform:translateX(-50%);z-index:50;width:max-content;max-width:calc(100% - var(--sp-400));display:flex;align-items:center;gap:var(--sp-300);padding:var(--sp-75) var(--sp-75) var(--sp-75) var(--sp-200);background:rgba(255,255,255,0.8);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:var(--r-2xl)}
+.brand{display:inline-flex;align-items:center;gap:var(--sp-75);min-height:44px}
+.brand .mark{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center}
+.nav-links{display:flex;align-items:center;gap:var(--sp-50)}
+.nav-links a{padding:var(--sp-75) var(--sp-100);border-radius:var(--r-lg);color:var(--muted);transition:background-color 300ms var(--ease),color 300ms var(--ease)}
+.nav-links a:hover{background:var(--bg-alt);color:var(--fg)}
+.nav-links a[aria-current]{color:var(--fg);background:var(--bg-alt)}
+.nav .btn{min-height:40px}
+.toggle{display:none;width:44px;height:44px;border:0;background:transparent;border-radius:var(--r-lg);cursor:pointer;position:relative}
+.toggle span{position:absolute;left:12px;right:12px;height:2px;background:var(--fg);border-radius:2px;transition:transform 500ms var(--ease)}
+.toggle span:nth-child(1){top:18px;transform:translateY(-4px)}
+.toggle span:nth-child(2){top:26px;transform:translateY(-4px)}
+.nav.open .toggle span:nth-child(1){transform:translateY(4px) rotate(45deg)}
+.nav.open .toggle span:nth-child(2){transform:translateY(-4px) rotate(-45deg)}
+.panel{position:fixed;inset:0;z-index:40;display:flex;flex-direction:column;gap:var(--sp-75);padding:calc(env(safe-area-inset-top,0px) + var(--sp-900)) max(var(--sp-300),env(safe-area-inset-right,0px)) var(--sp-300) max(var(--sp-300),env(safe-area-inset-left,0px));background:rgba(255,255,255,0.96);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);opacity:0;visibility:hidden;transition:opacity 500ms var(--ease),visibility 0s linear 500ms}
+.nav.open ~ .panel,.panel.open{opacity:1;visibility:visible;transition:opacity 500ms var(--ease),visibility 0s}
+.panel a.pl{padding:var(--sp-200) 0;border-bottom:1px solid var(--line);opacity:0;transform:translateY(24px);transition:transform 500ms var(--ease),opacity 500ms var(--ease);transition-delay:0ms}
+.panel.open a.pl{opacity:1;transform:none;transition-delay:calc(var(--i) * 60ms)}
+.panel .btn{margin-top:var(--sp-200);opacity:0;transform:translateY(24px);transition:transform 500ms var(--ease),opacity 500ms var(--ease),background-color 300ms var(--ease)}
+.panel.open .btn{opacity:1;transform:none;transition-delay:300ms}
+@media (max-width:760px){
+  .nav{width:calc(100% - var(--sp-400));justify-content:space-between;gap:var(--sp-100)}
+  .nav-links,.nav>.btn{display:none}
+  .toggle{display:block}
+}
+@media (min-width:761px){.panel{display:none}}
+
+/* hero */
+.hero{padding-top:var(--sp-900);padding-bottom:var(--sp-800)}
+.hero-inner{display:flex;flex-direction:column;align-items:center;text-align:center;gap:var(--sp-300)}
+.hero h1{max-width:680px;background:linear-gradient(90deg,#000000,#666666);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#000}
+.hero .sub{max-width:680px;color:var(--muted)}
+.hero .cta-row{display:flex;flex-direction:column;align-items:center;gap:var(--sp-100)}
+.hero .cta-row .line{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:var(--sp-200)}
+.proof{display:inline-flex;align-items:center;gap:var(--sp-75);color:var(--muted);max-width:680px}
+.proof svg{color:var(--accent)}
+.note{min-height:20px;color:var(--muted)}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}}
+.hero-inner>*{animation:rise 700ms var(--ease) both}
+.hero-inner>*:nth-child(2){animation-delay:60ms}
+.hero-inner>*:nth-child(3){animation-delay:120ms}
+.hero-inner>*:nth-child(4){animation-delay:180ms}
+.hero-inner>*:nth-child(5){animation-delay:240ms}
+.hero-inner>*:nth-child(6){animation-delay:300ms}
+
+/* drawn product mockup */
+.shot{width:100%;max-width:960px;margin-top:var(--sp-400)}
+.shot-frame{padding:var(--sp-75);background:var(--bg-alt);border:1px solid var(--line);border-radius:var(--r-3xl)}
+.shot-window{background:var(--bg);border:1px solid var(--line);border-radius:var(--r-2xl);overflow:hidden;text-align:left}
+.strip{display:flex;gap:var(--sp-50);padding:var(--sp-75) var(--sp-75) 0;background:var(--bg-alt);border-bottom:1px solid var(--line);overflow:hidden}
+.strip .t{padding:var(--sp-75) var(--sp-100);border-radius:var(--r-lg) var(--r-lg) 0 0;color:var(--muted);white-space:nowrap}
+.strip .t.on{background:var(--bg);color:var(--fg)}
+.shot-body{display:grid;grid-template-columns:minmax(0,1fr) 300px}
+.pg{padding:var(--sp-400);display:flex;flex-direction:column;gap:var(--sp-200)}
+.pg i{display:block;height:12px;background:#F0F0F0;border-radius:4px}
+.pg i.big{height:24px;width:50%;background:#E8E8E8}
+.pg i.block{height:96px;border-radius:var(--r-xl)}
+.side{border-left:1px solid var(--line);padding:var(--sp-200);display:flex;flex-direction:column;gap:var(--sp-100);background:var(--bg)}
+.side .row{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-100);padding:var(--sp-75) var(--sp-100);border:1px solid var(--line);border-radius:var(--r-lg)}
+.side .row.sel{border-color:var(--accent);background:var(--accent-soft)}
+.side .lbl{color:var(--muted);margin-top:var(--sp-50)}
+.badge{padding:var(--sp-25) var(--sp-75);border-radius:var(--r-lg);background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.side .cont{display:flex;align-items:center;justify-content:center;gap:var(--sp-75);padding:var(--sp-75) var(--sp-100);border-radius:var(--r-lg);background:var(--accent);color:#fff;margin-top:var(--sp-50)}
+.shot figcaption{margin-top:var(--sp-100);text-align:center;color:var(--muted)}
+@media (max-width:760px){
+  .shot-body{grid-template-columns:1fr}
+  .pg{display:none}
+  .strip .t:nth-child(n+3){display:none}
+  .side{border-left:0}
+}
+
+/* scroll reveal, once */
+.js .reveal{opacity:0;transform:translateY(32px);transition:transform 700ms var(--ease),opacity 700ms var(--ease)}
+.js .reveal.in{opacity:1;transform:none}
+
+/* problem to solution */
+.compare{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--sp-300)}
+.card{background:var(--bg);border:1px solid var(--line);border-radius:var(--r-2xl);padding:var(--sp-300);display:flex;flex-direction:column;gap:var(--sp-200);min-width:0}
+.band:not(.alt) .card{background:var(--bg-alt)}
+.card.dark{background:var(--fg);border-color:var(--fg);color:#fff}
+.card.dark .muted{color:#BDBDBD}
+.list{display:flex;flex-direction:column;gap:var(--sp-100)}
+.list li{display:flex;gap:var(--sp-100);align-items:flex-start}
+.list svg{margin-top:var(--sp-25);color:var(--accent)}
+.card.dark .list svg{color:#fff}
+.card.neg .list svg{color:var(--muted)}
+@media (max-width:760px){.compare{grid-template-columns:1fr}}
+
+/* tagline reveal */
+.tagline{padding-block:var(--sp-900)}
+.tagline p{max-width:680px;margin-inline:auto;text-align:left}
+.tagline .w{opacity:0.3;transition:opacity 500ms var(--ease)}
+.tagline .w.on{opacity:1}
+.tagline .w:not(.on){will-change:opacity}
+@media (max-width:640px){.tagline{padding-block:var(--sp-700)}}
+
+/* benefits */
+.benefits{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:var(--sp-200)}
+.benefits .card{grid-column:span 2}
+.benefits .card:nth-child(n+4){grid-column:span 3}
+.ico{width:40px;height:40px;display:grid;place-items:center;border-radius:var(--r-lg);background:var(--accent-soft);color:var(--accent)}
+.ico svg{width:24px;height:24px}
+@media (max-width:900px){.benefits{grid-template-columns:repeat(2,minmax(0,1fr))}.benefits .card,.benefits .card:nth-child(n+4){grid-column:span 1}.benefits .card:last-child{grid-column:span 2}}
+@media (max-width:640px){.benefits{grid-template-columns:1fr}.benefits .card,.benefits .card:last-child{grid-column:span 1}}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--sp-200)}
+.step-no{width:32px;height:32px;display:grid;place-items:center;border-radius:50%;background:var(--accent);color:#fff}
+@media (max-width:760px){.steps{grid-template-columns:1fr}}
+
+/* privacy proof */
+.split{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--sp-200)}
+@media (max-width:760px){.split{grid-template-columns:1fr}}
+.foot-cta{display:flex;flex-direction:column;align-items:center;gap:var(--sp-200);text-align:center;margin-top:var(--sp-400)}
+
+/* faq */
+.faq{max-width:760px;margin-inline:auto;display:flex;flex-direction:column;gap:var(--sp-100)}
+details.q{background:var(--bg);border:1px solid var(--line);border-radius:var(--r-2xl)}
+details.q summary{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-200);padding:var(--sp-200) var(--sp-300);cursor:pointer;list-style:none;min-height:56px}
+details.q summary::-webkit-details-marker{display:none}
+details.q summary .minus{display:none}
+details.q[open] summary .plus{display:none}
+details.q[open] summary .minus{display:block}
+details.q summary:hover .title-3{color:var(--accent)}
+details.q .a{padding:0 var(--sp-300) var(--sp-300);color:var(--muted)}
+
+/* risk reversal */
+.risk{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--sp-200)}
+@media (max-width:760px){.risk{grid-template-columns:1fr}}
+
+/* final cta */
+.final{background:var(--accent);color:#fff;text-align:center}
+.final .inner{display:flex;flex-direction:column;align-items:center;gap:var(--sp-300)}
+.final h2{max-width:680px}
+.final .sub{max-width:680px;color:#E7EEFF}
+.final .note{color:#E7EEFF}
+.final .line{display:flex;flex-wrap:wrap;gap:var(--sp-200);align-items:center;justify-content:center}
+
+/* footer */
+.site-foot{background:var(--bg-alt);border-top:1px solid var(--line);padding-block:var(--sp-600)}
+.site-foot .cols{display:flex;justify-content:space-between;gap:var(--sp-400);flex-wrap:wrap}
+.site-foot .who{max-width:420px;display:flex;flex-direction:column;gap:var(--sp-75)}
+.site-foot nav{display:flex;flex-wrap:wrap;gap:var(--sp-50);align-self:flex-start}
+.site-foot nav a{padding:var(--sp-100);border-radius:var(--r-lg);color:var(--muted);min-height:44px;display:inline-flex;align-items:center;transition:background-color 300ms var(--ease),color 300ms var(--ease)}
+.site-foot nav a:hover{background:var(--bg);color:var(--fg)}
+.site-foot nav a[aria-current]{color:var(--fg);background:var(--bg)}
+
+/* legal and 404 views */
+.view-pad{padding-top:var(--sp-900);padding-bottom:var(--sp-800)}
+.back{display:inline-flex;align-items:center;gap:var(--sp-75);min-height:44px;color:var(--muted);margin-bottom:var(--sp-300);transition:color 300ms var(--ease)}
+.back:hover{color:var(--fg)}
+.legal-head{display:flex;flex-direction:column;gap:var(--sp-200);margin-bottom:var(--sp-500);max-width:680px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:var(--sp-100);margin-bottom:var(--sp-500)}
+.fact{display:flex;justify-content:space-between;gap:var(--sp-200);padding:var(--sp-100) var(--sp-200);border:1px solid var(--line);border-radius:var(--r-xl);background:var(--bg-alt)}
+.legal{display:grid;grid-template-columns:240px minmax(0,1fr);gap:var(--sp-600);align-items:start}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--sp-900));display:flex;flex-direction:column;gap:var(--sp-25);max-height:calc(100vh - 128px);overflow:auto;padding:var(--sp-100);border:1px solid var(--line);border-radius:var(--r-2xl);background:var(--bg-alt)}
+.toc a{padding:var(--sp-75) var(--sp-100);border-radius:var(--r-lg);color:var(--muted);transition:background-color 300ms var(--ease),color 300ms var(--ease)}
+.toc a:hover{background:var(--bg);color:var(--fg)}
+.toc .head{padding:var(--sp-75) var(--sp-100);color:var(--muted)}
+@media (max-width:900px){.legal{grid-template-columns:1fr;gap:var(--sp-300)}.toc{position:static;max-height:none}}
+.doc{display:flex;flex-direction:column;gap:var(--sp-500);max-width:720px;min-width:0}
+.doc section{display:flex;flex-direction:column;gap:var(--sp-100);padding-bottom:var(--sp-500);border-bottom:1px solid var(--line);scroll-margin-top:calc(env(safe-area-inset-top,0px) + var(--sp-900))}
+.doc h2{font-size:24px;line-height:32px;font-weight:600;display:flex;gap:var(--sp-100);align-items:baseline;text-wrap:balance}
+.doc h2 span{font-size:14px;line-height:20px;font-weight:600;color:var(--accent)}
+.doc h3{font-size:18px;line-height:28px;font-weight:500;margin-top:var(--sp-75)}
+.doc p,.doc li{font-size:16px;line-height:24px;color:var(--muted);text-wrap:pretty}
+.doc b{color:var(--fg);font-weight:600}
+.doc ul{padding-left:var(--sp-300);display:flex;flex-direction:column;gap:var(--sp-75);list-style:disc}
+.doc .note{background:var(--accent-soft);border:1px solid #D5E3FF;border-radius:var(--r-xl);padding:var(--sp-200);color:var(--fg);min-height:0}
+.doc .tw{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r-xl)}
+.doc table{border-collapse:collapse;width:100%;min-width:520px}
+.doc th{text-align:left;background:var(--bg-alt);color:var(--fg);font-size:14px;line-height:20px;font-weight:600;padding:var(--sp-100) var(--sp-200)}
+.doc td{padding:var(--sp-100) var(--sp-200);color:var(--muted);border-top:1px solid var(--line);vertical-align:top;font-size:14px;line-height:20px}
+.draft{padding:var(--sp-100) var(--sp-200);border:1px solid var(--line);border-radius:var(--r-xl);background:var(--bg-alt);color:var(--muted)}
+.nf{display:flex;flex-direction:column;align-items:center;text-align:center;gap:var(--sp-200);padding-block:var(--sp-800)}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:1ms!important;animation-delay:0ms!important;transition-duration:1ms!important;transition-delay:0ms!important}
+  .js .reveal{transform:none}
+  .hero-inner>*{animation:none}
+  .panel a.pl,.panel .btn{transform:none}
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-arrow" viewBox="0 0 256 256"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></symbol><symbol id="i-check" viewBox="0 0 256 256"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></symbol><symbol id="i-x" viewBox="0 0 256 256"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></symbol><symbol id="i-lock" viewBox="0 0 256 256"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z"/></symbol><symbol id="i-tabs" viewBox="0 0 256 256"><path d="M255.66,165.7h0v0a.24.24,0,0,0,0-.08L233.37,91.4A15.89,15.89,0,0,0,218.05,80H208a8,8,0,0,0,0,16h10.05l19.2,64H206L185.37,91.4A15.89,15.89,0,0,0,170.05,80H160a8,8,0,0,0,0,16h10.05l19.2,64H158L137.37,91.4A15.89,15.89,0,0,0,122.05,80H38A15.89,15.89,0,0,0,22.63,91.4L.37,165.6l0,.05v0s0,.05,0,.08A8.1,8.1,0,0,0,0,168a8,8,0,0,0,8,8H248a8,8,0,0,0,7.66-10.3ZM38,96h84.1l19.2,64H18.75Z"/></symbol><symbol id="i-bell" viewBox="0 0 256 256"><path d="M168,224a8,8,0,0,1-8,8H96a8,8,0,1,1,0-16h64A8,8,0,0,1,168,224Zm53.85-32A15.8,15.8,0,0,1,208,200H48a16,16,0,0,1-13.8-24.06C39.75,166.38,48,139.34,48,104a80,80,0,1,1,160,0c0,35.33,8.26,62.38,13.81,71.94A15.89,15.89,0,0,1,221.84,192ZM208,184c-7.73-13.27-16-43.95-16-80a64,64,0,1,0-128,0c0,36.06-8.28,66.74-16,80Z"/></symbol><symbol id="i-sliders" viewBox="0 0 256 256"><path d="M40,88H73a32,32,0,0,0,62,0h81a8,8,0,0,0,0-16H135a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16Zm64-24A16,16,0,1,1,88,80,16,16,0,0,1,104,64ZM216,168H199a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16h97a32,32,0,0,0,62,0h17a8,8,0,0,0,0-16Zm-48,24a16,16,0,1,1,16-16A16,16,0,0,1,168,192Z"/></symbol><symbol id="i-eyeslash" viewBox="0 0 256 256"><path d="M53.92,34.62A8,8,0,1,0,42.08,45.38L61.32,66.55C25,88.84,9.38,123.2,8.69,124.76a8,8,0,0,0,0,6.5c.35.79,8.82,19.57,27.65,38.4C61.43,194.74,93.12,208,128,208a127.11,127.11,0,0,0,52.07-10.83l22,24.21a8,8,0,1,0,11.84-10.76Zm47.33,75.84,41.67,45.85a32,32,0,0,1-41.67-45.85ZM128,192c-30.78,0-57.67-11.19-79.93-33.25A133.16,133.16,0,0,1,25,128c4.69-8.79,19.66-33.39,47.35-49.38l18,19.75a48,48,0,0,0,63.66,70l14.73,16.2A112,112,0,0,1,128,192Zm6-95.43a8,8,0,0,1,3-15.72,48.16,48.16,0,0,1,38.77,42.64,8,8,0,0,1-7.22,8.71,6.39,6.39,0,0,1-.75,0,8,8,0,0,1-8-7.26A32.09,32.09,0,0,0,134,96.57Zm113.28,34.69c-.42.94-10.55,23.37-33.36,43.8a8,8,0,1,1-10.67-11.92A132.77,132.77,0,0,0,231.05,128a133.15,133.15,0,0,0-23.12-30.77C185.67,75.19,158.78,64,128,64a118.37,118.37,0,0,0-19.36,1.57A8,8,0,1,1,106,49.79,134,134,0,0,1,128,48c34.88,0,66.57,13.26,91.66,38.35,18.83,18.83,27.3,37.62,27.65,38.41A8,8,0,0,1,247.31,131.26Z"/></symbol><symbol id="i-drive" viewBox="0 0 256 256"><path d="M208,136H48a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V152A16,16,0,0,0,208,136Zm0,64H48V152H208v48Zm0-160H48A16,16,0,0,0,32,56v48a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V56A16,16,0,0,0,208,40Zm0,64H48V56H208v48ZM192,80a12,12,0,1,1-12-12A12,12,0,0,1,192,80Zm0,96a12,12,0,1,1-12-12A12,12,0,0,1,192,176Z"/></symbol><symbol id="i-return" viewBox="0 0 256 256"><path d="M232,144a64.07,64.07,0,0,1-64,64H80a8,8,0,0,1,0-16h88a48,48,0,0,0,0-96H51.31l34.35,34.34a8,8,0,0,1-11.32,11.32l-48-48a8,8,0,0,1,0-11.32l48-48A8,8,0,0,1,85.66,45.66L51.31,80H168A64.07,64.07,0,0,1,232,144Z"/></symbol><symbol id="i-chrome" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,16a88,88,0,0,1,73.72,40H128a48.08,48.08,0,0,0-45.6,33l-23.08-40A87.89,87.89,0,0,1,128,40Zm32,88a32,32,0,1,1-32-32A32,32,0,0,1,160,128ZM40,128a87.44,87.44,0,0,1,9.56-39.86L86.43,152c.06.1.13.19.19.28A48,48,0,0,0,137.82,175l-23.1,40A88.14,88.14,0,0,1,40,128Zm92.69,87.87L169.57,152c.08-.14.14-.28.22-.42a47.88,47.88,0,0,0-6-55.58H210a88,88,0,0,1-77.29,119.87Z"/></symbol><symbol id="i-plus" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"/></symbol><symbol id="i-minus" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128Z"/></symbol><symbol id="i-back" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"/></symbol><symbol id="i-browsers" viewBox="0 0 256 256"><path d="M216,40H72A16,16,0,0,0,56,56V72H40A16,16,0,0,0,24,88V200a16,16,0,0,0,16,16H184a16,16,0,0,0,16-16V184h16a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40ZM184,88v16H40V88Zm0,112H40V120H184v80Zm32-32H200V88a16,16,0,0,0-16-16H72V56H216Z"/></symbol><symbol id="i-shield" viewBox="0 0 256 256"><path d="M208,40H48A16,16,0,0,0,32,56v56c0,52.72,25.52,84.67,46.93,102.19,23.06,18.86,46,25.26,47,25.53a8,8,0,0,0,4.2,0c1-.27,23.91-6.67,47-25.53C198.48,196.67,224,164.72,224,112V56A16,16,0,0,0,208,40Zm0,72c0,37.07-13.66,67.16-40.6,89.42A129.3,129.3,0,0,1,128,223.62a128.25,128.25,0,0,1-38.92-21.81C61.82,179.51,48,149.3,48,112l0-56,160,0ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z"/></symbol></svg>
+
+<a class="skip button-sm" href="#main" data-skip>Skip to content</a>
+
+<header>
+  <nav class="nav" id="nav" aria-label="Main">
+    <a class="brand title-2" href="#home" aria-label="Tabfino home"><span class="mark"><svg class="i" style="width:16px;height:16px"><use href="#i-tabs"/></svg></span>Tabfino</a>
+    <div class="nav-links body-5">
+      <a href="#benefits" data-spy-link="benefits">Benefits</a>
+      <a href="#how-it-works" data-spy-link="how-it-works">How it works</a>
+      <a href="#your-data" data-spy-link="your-data">Your data</a>
+      <a href="#faq" data-spy-link="faq">FAQ</a>
+    </div>
+    <a class="btn button-sm" href="#get-tabfino" data-cta>Add to Chrome</a>
+    <button class="toggle" id="toggle" type="button" aria-expanded="false" aria-controls="panel" aria-label="Open menu"><span></span><span></span></button>
+  </nav>
+  <div class="panel" id="panel">
+    <a class="pl title-1" style="--i:0" href="#benefits">Benefits</a>
+    <a class="pl title-1" style="--i:1" href="#how-it-works">How it works</a>
+    <a class="pl title-1" style="--i:2" href="#your-data">Your data</a>
+    <a class="pl title-1" style="--i:3" href="#faq">FAQ</a>
+    <a class="btn button-md" href="#get-tabfino" data-cta><svg class="i"><use href="#i-chrome"/></svg>Add to Chrome</a>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+
+<!-- HOME -->
+<div data-view="home">
+  <section class="hero" aria-labelledby="h-hero">
+    <div class="container hero-inner">
+      <span class="eyebrow caption-1"><svg class="i" style="width:16px;height:16px"><use href="#i-lock"/></svg>A free Chrome extension</span>
+      <h1 id="h-hero" class="heading-1">Pick up where<br>your work left off</h1>
+      <p class="sub title-2">Tabfino remembers the tabs you choose to save and groups them into workflows. After an interruption you reopen one page, or the whole session, in a click.</p>
+      <div class="cta-row">
+        <div class="line">
+          <a class="btn button-md" href="#get-tabfino" data-cta><svg class="i"><use href="#i-chrome"/></svg>Add to Chrome<svg class="i"><use href="#i-arrow"/></svg></a>
+          <span class="caption-2 muted">Free to install and use</span>
+        </div>
+        <p class="note caption-2" data-cta-note role="status" aria-live="polite"></p>
+      </div>
+      <p class="proof body-5"><svg class="i"><use href="#i-shield"/></svg>Your browser metadata stays on your device. Tabfino does not read page content.</p>
+
+      <figure class="shot" role="img" aria-label="Example of the Tabfino side panel beside a browser page. It lists recent workflows and the related tabs of one workflow, with the last active tab marked.">
+        <div class="shot-frame">
+          <div class="shot-window" aria-hidden="true">
+            <div class="strip caption-4"><span class="t on">Pricing comparison</span><span class="t">Contract draft</span><span class="t">Security notes</span><span class="t">Reference list</span></div>
+            <div class="shot-body">
+              <div class="pg"><i class="big"></i><i style="width:92%"></i><i style="width:78%"></i><i class="block"></i><i style="width:86%"></i><i style="width:64%"></i></div>
+              <div class="side">
+                <div class="title-4" style="display:flex;align-items:center;gap:8px"><svg class="i accent" style="width:16px;height:16px"><use href="#i-tabs"/></svg>Tabfino</div>
+                <div class="caption-3 lbl">Recent work</div>
+                <div class="row sel"><span class="title-4">Vendor research</span><span class="caption-4 muted">5 tabs</span></div>
+                <div class="row"><span class="title-4">Quarter planning</span><span class="caption-4 muted">3 tabs</span></div>
+                <div class="row"><span class="title-4">Trip to Pune</span><span class="caption-4 muted">4 tabs</span></div>
+                <div class="caption-3 lbl">Related tabs</div>
+                <div class="row"><span class="body-6">Pricing comparison</span><span class="badge caption-4">Last active</span></div>
+                <div class="row"><span class="body-6">Contract draft</span><span class="caption-4 muted">Open</span></div>
+                <div class="cont button-sm"><svg class="i" style="width:16px;height:16px"><use href="#i-return"/></svg>Continue work</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <figcaption class="caption-2">Illustration with example data. Nothing here is real browsing.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="band alt" aria-labelledby="h-problem">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow caption-1">The problem</span>
+        <h2 id="h-problem" class="heading-2">A quick interruption turns into a long search</h2>
+        <p class="title-2 muted">You come back to your browser and the task is no longer in front of you. Tabfino gives your work a clear return point, so you spend less time rebuilding context.</p>
+      </div>
+      <div class="compare">
+        <div class="card neg reveal">
+          <h3 class="title-1">Without Tabfino</h3>
+          <ul class="list body-3">
+            <li><svg class="i"><use href="#i-x"/></svg>You hunt through a row of tabs for the one that mattered</li>
+            <li><svg class="i"><use href="#i-x"/></svg>You forget what you were about to do next</li>
+            <li><svg class="i"><use href="#i-x"/></svg>You rebuild the context from memory</li>
+          </ul>
+        </div>
+        <div class="card reveal">
+          <h3 class="title-1">With Tabfino</h3>
+          <ul class="list body-3">
+            <li><svg class="i"><use href="#i-check"/></svg>Your last active tab is one click away</li>
+            <li><svg class="i"><use href="#i-check"/></svg>Related tabs sit together in a named workflow</li>
+            <li><svg class="i"><use href="#i-check"/></svg>You reopen one page or the whole session</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tagline" aria-label="Our promise">
+    <div class="container">
+      <p class="heading-2" data-tagline>Your browser should remember where you stopped, so you never search for it again.</p>
+    </div>
+  </section>
+
+  <section class="band alt" id="benefits" aria-labelledby="h-benefits" data-spy="benefits">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow caption-1">Benefits</span>
+        <h2 id="h-benefits" class="heading-2">A small memory layer for your browser</h2>
+      </div>
+      <div class="benefits">
+        <article class="card reveal"><span class="ico"><svg class="i"><use href="#i-return"/></svg></span><h3 class="title-1">Return to your last active tab</h3><p class="body-3 muted">See where you stopped and jump straight back to that page.</p></article>
+        <article class="card reveal"><span class="ico"><svg class="i"><use href="#i-tabs"/></svg></span><h3 class="title-1">Open one saved tab</h3><p class="body-3 muted">Pick the exact page you need and leave the rest closed until you want them.</p></article>
+        <article class="card reveal"><span class="ico"><svg class="i"><use href="#i-browsers"/></svg></span><h3 class="title-1">Restore a whole workflow</h3><p class="body-3 muted">Reopen every saved tab from a work session when you are ready to continue.</p></article>
+        <article class="card reveal"><span class="ico"><svg class="i"><use href="#i-bell"/></svg></span><h3 class="title-1">Get an optional return reminder</h3><p class="body-3 muted">After a period of device inactivity, a reminder shows the workflow you left. Chrome's idle signal covers the whole device, so activity outside the browser can affect the timing.</p></article>
+        <article class="card reveal"><span class="ico"><svg class="i"><use href="#i-sliders"/></svg></span><h3 class="title-1">Set your own boundaries</h3><p class="body-3 muted">Pause memory, exclude private websites, choose what notifications show, or delete saved activity in Settings.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="how-it-works" aria-labelledby="h-how" data-spy="how-it-works">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow caption-1">How it works</span>
+        <h2 id="h-how" class="heading-2">Save the context, then resume with less searching</h2>
+      </div>
+      <ol class="steps">
+        <li class="card reveal"><span class="step-no title-4">1</span><h3 class="title-1">Choose to remember</h3><p class="body-3 muted">Enable Tabfino and grant tab access. It saves tab titles, URLs and activity details on your device.</p></li>
+        <li class="card reveal"><span class="step-no title-4">2</span><h3 class="title-1">Work across your tabs</h3><p class="body-3 muted">Tabfino groups related tabs into workflows, giving each work session a recognizable name and a useful return point.</p></li>
+        <li class="card reveal"><span class="step-no title-4">3</span><h3 class="title-1">Come back your way</h3><p class="body-3 muted">Open the last active tab, choose any saved tab, or reopen every tab in a workflow.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="band alt" id="your-data" aria-labelledby="h-data" data-spy="your-data">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow caption-1">Your data</span>
+        <h2 id="h-data" class="heading-2">Useful context without reading your pages</h2>
+        <p class="title-2 muted">Tabfino is designed to remember browser metadata, not the contents of your work.</p>
+      </div>
+      <div class="split">
+        <div class="card reveal">
+          <h3 class="title-1">It can save, with your permission</h3>
+          <ul class="list body-3">
+            <li><svg class="i"><use href="#i-check"/></svg>Tab titles and URLs</li>
+            <li><svg class="i"><use href="#i-check"/></svg>Activity timestamps</li>
+            <li><svg class="i"><use href="#i-check"/></svg>Which tab was active</li>
+          </ul>
+        </div>
+        <div class="card dark reveal">
+          <h3 class="title-1">It does not read or save</h3>
+          <ul class="list body-3">
+            <li><svg class="i"><use href="#i-x"/></svg>Page text or documents</li>
+            <li><svg class="i"><use href="#i-x"/></svg>Messages or passwords</li>
+            <li><svg class="i"><use href="#i-x"/></svg>Screenshots or keystrokes</li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot-cta reveal">
+        <p class="body-3 muted" style="max-width:680px">Saved workflow data stays in Chrome's local extension storage on your device. You can pause memory, exclude websites, or delete saved activity in Settings.</p>
+        <a class="link body-2" href="#privacy">Read the privacy policy</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="faq" aria-labelledby="h-faq" data-spy="faq">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow caption-1">FAQ</span>
+        <h2 id="h-faq" class="heading-2">Frequently asked questions</h2>
+      </div>
+      <div class="faq reveal"><details class="q" open><summary><span class="title-3">Does Tabfino read the content of my pages?</span><svg class="i plus accent"><use href="#i-plus"/></svg><svg class="i minus accent"><use href="#i-minus"/></svg></summary><p class="a body-3">No. It uses tab metadata such as titles and URLs. It does not read page text, messages or keystrokes.</p></details><details class="q"><summary><span class="title-3">Where is my saved work stored?</span><svg class="i plus accent"><use href="#i-plus"/></svg><svg class="i minus accent"><use href="#i-minus"/></svg></summary><p class="a body-3">In Chrome's local extension storage on your device. The current prototype does not upload or sync it to a Tabfino server.</p></details><details class="q"><summary><span class="title-3">Will Tabfino slow Chrome down?</span><svg class="i plus accent"><use href="#i-plus"/></svg><svg class="i minus accent"><use href="#i-minus"/></svg></summary><p class="a body-3">We have not published performance measurements yet, so we make no speed claim here. Tabfino works with tab titles, URLs and timestamps rather than page content, and you can pause memory or remove the extension at any time.</p></details><details class="q"><summary><span class="title-3">Why not use bookmarks or tab groups?</span><svg class="i plus accent"><use href="#i-plus"/></svg><svg class="i minus accent"><use href="#i-minus"/></svg></summary><p class="a body-3">Bookmarks and tab groups hold what you organize yourself. Tabfino groups related tabs into workflows, names each work session and remembers which tab was active. You can use them together.</p></details><details class="q"><summary><span class="title-3">Can I open only one saved tab?</span><svg class="i plus accent"><use href="#i-plus"/></svg><svg class="i minus accent"><use href="#i-minus"/></svg></summary><p class="a body-3">Yes. Select a saved tab to open just that page. Choose Continue work when you want to reopen every saved tab in the workflow.</p></details><details class="q"><summary><span class="title-3">What does the inactivity reminder detect?</span><svg class="i plus accent"><use href="#i-plus"/></svg><svg class="i minus accent"><use href="#i-minus"/></svg></summary><p class="a body-3">Chrome reports inactivity for the whole device. That signal is not limited to activity inside Chrome, so other device use can affect when a reminder appears.</p></details><details class="q"><summary><span class="title-3">Can I stop Tabfino from remembering?</span><svg class="i plus accent"><use href="#i-plus"/></svg><svg class="i minus accent"><use href="#i-minus"/></svg></summary><p class="a body-3">Yes. Pause memory in Settings. You can also exclude specific websites or delete saved activity.</p></details><details class="q"><summary><span class="title-3">Does Tabfino work outside Chrome?</span><svg class="i plus accent"><use href="#i-plus"/></svg><svg class="i minus accent"><use href="#i-minus"/></svg></summary><p class="a body-3">It is built as a Chrome extension and remembers browser tabs. It does not capture work in desktop apps.</p></details></div>
+    </div>
+  </section>
+
+  <section class="band alt" aria-labelledby="h-risk">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow caption-1">No risk</span>
+        <h2 id="h-risk" class="heading-3">Try it, and leave whenever you like</h2>
+      </div>
+      <div class="risk">
+        <div class="card reveal"><span class="ico"><svg class="i"><use href="#i-check"/></svg></span><h3 class="title-1">Free to install and use</h3><p class="body-3 muted">There is no paid plan to choose.</p></div>
+        <div class="card reveal"><span class="ico"><svg class="i"><use href="#i-eyeslash"/></svg></span><h3 class="title-1">Pause or delete anytime</h3><p class="body-3 muted">Stop memory, exclude sites, or delete saved activity from Settings.</p></div>
+        <div class="card reveal"><span class="ico"><svg class="i"><use href="#i-drive"/></svg></span><h3 class="title-1">Stored on your device</h3><p class="body-3 muted">Removing the extension removes what it saved locally.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band final" aria-labelledby="h-final">
+    <div class="container inner">
+      <h2 id="h-final" class="heading-2 reveal">Make it easier to find your way back</h2>
+      <p class="sub title-2 reveal">Keep your browser work together, and return to it when you are ready.</p>
+      <div class="reveal" style="display:flex;flex-direction:column;align-items:center;gap:12px">
+        <div class="line">
+          <a class="btn on-accent button-md" href="#get-tabfino" data-cta><svg class="i"><use href="#i-chrome"/></svg>Add to Chrome<svg class="i"><use href="#i-arrow"/></svg></a>
+          <span class="caption-2" style="color:#E7EEFF">Free to install and use</span>
+        </div>
+        <p class="note caption-2" data-cta-note role="status" aria-live="polite"></p>
+        <p class="caption-2" style="color:#E7EEFF;max-width:560px">Requires Chrome and permission to access tabs. Inactivity reminders also need notification and idle permissions.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- PRIVACY -->
+<div data-view="privacy" hidden>
+  <div class="container view-pad">
+    <a class="back body-5" href="#home"><svg class="i" style="width:16px;height:16px"><use href="#i-back"/></svg>Back to home</a>
+    <div class="legal-head">
+      <h1 class="heading-2">Privacy policy</h1>
+      <p class="title-2 muted">How Tabfino handles your browser metadata and what you control. Last updated November 17, 2026.</p>
+    </div>
+    <div class="facts body-5"><div class="fact"><b>Stored</b><span class="muted">On your device</span></div><div class="fact"><b>Page content</b><span class="muted">Never read</span></div><div class="fact"><b>Your controls</b><span class="muted">Pause, exclude, delete</span></div></div>
+    <div class="legal">
+      <nav class="toc body-5" aria-label="Privacy policy sections"><span class="head caption-3">On this page</span><a href="#privacy-section-1">1. Overview</a><a href="#privacy-section-2">2. Definitions</a><a href="#privacy-section-3">3. Information Tabfino handles</a><a href="#privacy-section-4">4. How we use information</a><a href="#privacy-section-5">5. Where your data is stored</a><a href="#privacy-section-6">6. Permissions Tabfino requests</a><a href="#privacy-section-7">7. How long we keep data</a><a href="#privacy-section-8">8. Your choices and controls</a><a href="#privacy-section-9">9. Your rights</a><a href="#privacy-section-10">10. Security</a><a href="#privacy-section-11">11. Sharing and third parties</a><a href="#privacy-section-12">12. This website</a><a href="#privacy-section-13">13. International transfers</a><a href="#privacy-section-14">14. Children’s privacy</a><a href="#privacy-section-15">15. Changes to this policy</a><a href="#privacy-section-16">16. Contact us</a></nav>
+      <div class="doc"><section id="privacy-section-1"><h2><span>01</span>Overview</h2><p>This Privacy Policy explains how [COMPANY / DEVELOPER NAME] (“Tabfino”, “we”, “us”) handles information when you use the Tabfino Chrome extension and this website. Tabfino is built to be local first: the work context it remembers is saved on your device, and the current prototype does not upload or sync it to a Tabfino server.</p><p>Please read this policy together with our Terms and Conditions.</p><div class="note"><b>In short:</b> Tabfino saves tab titles, URLs and activity details on your device, with your permission. It does not read page content, and you can pause, exclude or delete what it saves at any time.</div></section><section id="privacy-section-2"><h2><span>02</span>Definitions</h2><ul><li><b>Extension</b>: the Tabfino Chrome extension.</li><li><b>Browser metadata</b>: tab titles, URLs, activity timestamps and which tab was active.</li><li><b>Workflow</b>: a group of related tabs that Tabfino saves as one work session.</li><li><b>Local storage</b>: Chrome’s extension storage on your device.</li><li><b>Website</b>: the Tabfino marketing website.</li></ul></section><section id="privacy-section-3"><h2><span>03</span>Information Tabfino handles</h2><h3>Information the extension saves, with your permission</h3><div class="tw"><table><thead><tr><th>Data</th><th>What it is</th><th>Why it is used</th></tr></thead><tbody><tr><td>Tab titles</td><td>The title shown on a tab</td><td>Name tabs in a workflow so you can recognise them</td></tr><tr><td>Tab URLs</td><td>The address of a tab</td><td>Reopen the exact page you choose</td></tr><tr><td>Activity timestamps</td><td>When a tab was opened or last active</td><td>Order workflows and find your last active tab</td></tr><tr><td>Active tab marker</td><td>Which tab was active in a workflow</td><td>Return you to where you stopped</td></tr><tr><td>Workflow names</td><td>A name Tabfino gives to a group of tabs</td><td>Give each work session a recognisable return point</td></tr><tr><td>Settings</td><td>Your pause, exclusion and notification choices</td><td>Apply the boundaries you set</td></tr></tbody></table></div><h3>Information Tabfino does not read or save</h3><ul><li>Page text or documents</li><li>Messages or passwords</li><li>Screenshots or keystrokes</li></ul><h3>Information you give us directly</h3><p>If you contact us, join early access, or request support, we receive what you send, such as your email address and message. See “This website” below.</p></section><section id="privacy-section-4"><h2><span>04</span>How we use information</h2><p>Saved browser metadata is used only to provide Tabfino’s features:</p><ul><li>Group related tabs into workflows</li><li>Show your recent work and the page that was active last</li><li>Let you open one saved tab or reopen a whole workflow</li><li>Show an optional return reminder if you turn it on</li><li>Apply the pause, exclusion and notification settings you choose</li></ul><p>We do not use your saved browser metadata for advertising, and we do not sell it.</p></section><section id="privacy-section-5"><h2><span>05</span>Where your data is stored</h2><p>Saved workflow data stays in Chrome’s local extension storage on your device. The current prototype does not upload or sync it to a Tabfino server, so we do not receive it and cannot access or recover it for you.</p><p>Local storage is tied to your Chrome profile and this device. Removing the extension, clearing its data, or resetting Chrome can permanently remove what it saved.</p></section><section id="privacy-section-6"><h2><span>06</span>Permissions Tabfino requests</h2><div class="tw"><table><thead><tr><th>Chrome permission</th><th>Needed for</th><th>Required?</th></tr></thead><tbody><tr><td>Tabs</td><td>Read tab titles and URLs, and detect which tab is active</td><td>Yes</td></tr><tr><td>Storage</td><td>Keep saved workflows and settings on your device</td><td>Yes</td></tr><tr><td>Notifications</td><td>Show the optional return reminder</td><td>Only for reminders</td></tr><tr><td>Idle</td><td>Detect a period of device inactivity to time the reminder</td><td>Only for reminders</td></tr></tbody></table></div><p>Chrome’s idle signal is system wide, so it may reflect activity outside the browser. Tabfino uses it only to time a reminder and does not receive details of what you did.</p></section><section id="privacy-section-7"><h2><span>07</span>How long we keep data</h2><p>Saved browser metadata stays on your device until you delete it in Settings, remove the extension, or clear the extension’s data. [IF YOU ADD AUTOMATIC EXPIRY, DESCRIBE IT HERE.]</p><p>For information you send us directly, we keep it as long as needed to respond and for [RETENTION PERIOD], unless the law requires longer.</p></section><section id="privacy-section-8"><h2><span>08</span>Your choices and controls</h2><ul><li><b>Pause memory</b>: stop Tabfino from saving new activity.</li><li><b>Exclude websites</b>: keep private sites out of what is saved.</li><li><b>Notification details</b>: control what a reminder shows.</li><li><b>Delete saved activity</b>: remove saved workflows from Settings.</li><li><b>Uninstall</b>: remove the extension and its local data from Chrome.</li></ul></section><section id="privacy-section-9"><h2><span>09</span>Your rights</h2><p>Depending on where you live, you may have rights over personal data we hold, such as the right to access, correct, delete, restrict or object to its use, to withdraw consent, and to complain to a regulator. This can include rights under India’s Digital Personal Data Protection Act, 2023, the EU/UK GDPR, or the California CCPA/CPRA. [CONFIRM WHICH LAWS APPLY TO YOU.]</p><p>Because saved workflow data stays on your device, you can exercise most of these rights yourself in Settings. For anything we hold, such as messages you sent us, email us at [CONTACT EMAIL].</p></section><section id="privacy-section-10"><h2><span>10</span>Security</h2><p>Saved data is kept in Chrome’s extension storage on your device and is protected by the browser’s own isolation and your device’s security. No system is perfectly secure, and we cannot promise absolute security. Use a device lock and keep Chrome up to date.</p><p>If a future release adds sync or a server, this policy will be updated before that happens and, where required, we will ask for your consent.</p></section><section id="privacy-section-11"><h2><span>11</span>Sharing and third parties</h2><p>We do not sell your personal data. We share information only in these cases:</p><ul><li><b>Service providers</b> that help us run the website or support, under appropriate confidentiality terms. [LIST, IF ANY.]</li><li><b>Legal reasons</b>, if required by law or to protect rights and safety.</li><li><b>Business changes</b>, such as a merger or sale, with notice if your data is affected.</li></ul><p>The extension is distributed through the Chrome Web Store, operated by Google, which has its own privacy practices.</p></section><section id="privacy-section-12"><h2><span>12</span>This website</h2><p>[DESCRIBE WEBSITE DATA HERE. For example: whether the site uses analytics or cookies, which provider processes them, what is collected (such as page views or device type), and how to opt out. If the site collects nothing, state that clearly.]</p><h3>Cookies</h3><p>[STATE WHETHER COOKIES ARE USED. If only essential cookies are used, say so. If analytics or marketing cookies are used, say how consent is requested.]</p><h3>Early access and contact forms</h3><p>If you join early access or contact us, we use your email and message to reply and share updates you asked for. You can ask us to stop at any time.</p></section><section id="privacy-section-13"><h2><span>13</span>International transfers</h2><p>Tabfino’s saved data stays on your device. If we process information you send us in another country, we will use appropriate safeguards where the law requires them. [CONFIRM WHERE YOUR PROVIDERS ARE LOCATED.]</p></section><section id="privacy-section-14"><h2><span>14</span>Children’s privacy</h2><p>Tabfino is not directed to children under [AGE: 13 / 16, as applicable to your regions]. We do not knowingly collect personal data from them. If you think a child has sent us information, contact us and we will delete it.</p></section><section id="privacy-section-15"><h2><span>15</span>Changes to this policy</h2><p>We may update this policy as Tabfino changes. We will post the new version here with a new “last updated” date and, for material changes, give clearer notice. Continued use after a change means you accept the updated policy, where the law allows.</p></section><section id="privacy-section-16"><h2><span>16</span>Contact us</h2><p>Questions, requests or complaints: [CONTACT EMAIL].</p><p>[POSTAL ADDRESS, if required.]</p><p>[IF REQUIRED IN INDIA OR YOUR REGIONS: name and contact of your grievance officer or data protection contact.]</p></section><p class="draft body-6">Draft template, not legal advice. Fill in the bracketed details and have a qualified lawyer review it before publishing.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- TERMS -->
+<div data-view="terms" hidden>
+  <div class="container view-pad">
+    <a class="back body-5" href="#home"><svg class="i" style="width:16px;height:16px"><use href="#i-back"/></svg>Back to home</a>
+    <div class="legal-head">
+      <h1 class="heading-2">Terms and conditions</h1>
+      <p class="title-2 muted">The rules for using Tabfino and this website. Last updated November 17, 2026.</p>
+    </div>
+    <div class="facts body-5"><div class="fact"><b>Product</b><span class="muted">Chrome extension</span></div><div class="fact"><b>Your data</b><span class="muted">Stays on your device</span></div><div class="fact"><b>Status</b><span class="muted">Early release</span></div></div>
+    <div class="legal">
+      <nav class="toc body-5" aria-label="Terms sections"><span class="head caption-3">On this page</span><a href="#terms-section-1">1. Agreement to these terms</a><a href="#terms-section-2">2. Definitions</a><a href="#terms-section-3">3. The service</a><a href="#terms-section-4">4. Eligibility and requirements</a><a href="#terms-section-5">5. Permissions and your data</a><a href="#terms-section-6">6. Licence to use Tabfino</a><a href="#terms-section-7">7. Acceptable use</a><a href="#terms-section-8">8. Early access and prototype features</a><a href="#terms-section-9">9. Reminders and restored tabs</a><a href="#terms-section-10">10. Your content and feedback</a><a href="#terms-section-11">11. Intellectual property</a><a href="#terms-section-12">12. Third party services</a><a href="#terms-section-13">13. Support and updates</a><a href="#terms-section-14">14. Disclaimer of warranties</a><a href="#terms-section-15">15. Limitation of liability</a><a href="#terms-section-16">16. Indemnity</a><a href="#terms-section-17">17. Termination</a><a href="#terms-section-18">18. Changes to these terms</a><a href="#terms-section-19">19. Governing law and disputes</a><a href="#terms-section-20">20. General</a><a href="#terms-section-21">21. Contact us</a></nav>
+      <div class="doc"><section id="terms-section-1"><h2><span>01</span>Agreement to these terms</h2><p>These Terms and Conditions (“Terms”) are a legal agreement between you and [COMPANY / DEVELOPER NAME] (“Tabfino”, “we”, “us”). They apply to your use of the Tabfino Chrome extension and this website. By installing or using Tabfino you agree to them. If you do not agree, do not use Tabfino.</p><div class="note"><b>In short:</b> Tabfino helps you return to browser work. It saves browser metadata on your device. You are responsible for how you use it, and it is provided as is, as an early release.</div></section><section id="terms-section-2"><h2><span>02</span>Definitions</h2><ul><li><b>Extension</b>: the Tabfino Chrome extension, including updates.</li><li><b>Website</b>: the Tabfino marketing website.</li><li><b>Service</b>: the extension and the website together.</li><li><b>Browser metadata</b>: tab titles, URLs, activity timestamps and which tab was active.</li><li><b>Workflow</b>: a group of related tabs saved as one work session.</li></ul></section><section id="terms-section-3"><h2><span>03</span>The service</h2><p>Tabfino remembers the tabs and workflow context you choose to save, groups related tabs into workflows, and lets you open the last active tab, any saved tab, or a whole workflow. It can show an optional return reminder.</p><p>Tabfino works with Chrome browser tabs only. It does not capture work in desktop apps, and it does not read page content. Availability and features may vary by release.</p></section><section id="terms-section-4"><h2><span>04</span>Eligibility and requirements</h2><p>You must be old enough to form a binding agreement where you live, or use Tabfino with a parent or guardian’s consent. [MINIMUM AGE: 13 / 16 / 18.]</p><p>Tabfino requires Chrome and your permission to access tabs. Optional reminders require notification and idle permissions. You are responsible for your device, browser and internet connection.</p></section><section id="terms-section-5"><h2><span>05</span>Permissions and your data</h2><p>When you enable Tabfino and grant tab access, you allow it to save browser metadata locally on your device, as described in our Privacy Policy. You can pause memory, exclude websites, control notification details and delete saved activity at any time in Settings.</p><p>You are responsible for deciding what to save. Exclude any sites you do not want remembered, particularly on shared or work devices.</p></section><section id="terms-section-6"><h2><span>06</span>Licence to use Tabfino</h2><p>We grant you a personal, non exclusive, non transferable, revocable licence to install and use the extension for your own purposes, subject to these Terms. [IF OPEN SOURCE: state the licence and how it interacts with these Terms.]</p><p>All rights not granted are reserved.</p></section><section id="terms-section-7"><h2><span>07</span>Acceptable use</h2><p>You agree not to:</p><ul><li>Break the law or infringe anyone’s rights while using Tabfino</li><li>Copy, modify, resell or redistribute Tabfino except as the licence allows</li><li>Reverse engineer or tamper with the extension, except where the law allows</li><li>Interfere with the extension, its distribution, or other people’s use of it</li><li>Use Tabfino to monitor another person without their knowledge and consent</li><li>Attempt to gain unauthorised access to our systems or accounts</li></ul></section><section id="terms-section-8"><h2><span>08</span>Early access and prototype features</h2><p>Some features are previews or prototypes. They may change, break, be limited or be removed without notice, and may contain errors. Do not rely on Tabfino as your only record of important work, and keep your own copy of anything critical.</p></section><section id="terms-section-9"><h2><span>09</span>Reminders and restored tabs</h2><p>Reminders are based on Chrome’s system wide idle signal and may appear or not appear when you expect. Reopening a workflow opens saved pages in your browser. Pages may have changed, moved, expired or require a sign in, and unsaved changes on a page are not preserved by Tabfino.</p></section><section id="terms-section-10"><h2><span>10</span>Your content and feedback</h2><p>The data Tabfino saves about your tabs remains yours. If you send us feedback or ideas, you grant us a free, perpetual licence to use them to improve Tabfino without obligation to you.</p></section><section id="terms-section-11"><h2><span>11</span>Intellectual property</h2><p>Tabfino, its name, logo, design and code (except any open source parts under their own licences) belong to [COMPANY / DEVELOPER NAME] or its licensors and are protected by law. These Terms do not give you any ownership of them.</p></section><section id="terms-section-12"><h2><span>12</span>Third party services</h2><p>Tabfino runs in Google Chrome and is distributed through the Chrome Web Store. Google’s terms and policies apply to those services, and we are not responsible for them or for changes Google makes to Chrome that affect Tabfino.</p></section><section id="terms-section-13"><h2><span>13</span>Support and updates</h2><p>We may provide support through [CONTACT EMAIL] on a reasonable efforts basis. We may update, change or discontinue Tabfino or any feature at any time. Chrome may update the extension automatically.</p></section><section id="terms-section-14"><h2><span>14</span>Disclaimer of warranties</h2><p>To the fullest extent permitted by law, Tabfino is provided “as is” and “as available”, without warranties of any kind, express or implied, including merchantability, fitness for a particular purpose and non infringement. We do not promise that it will be uninterrupted or error free, or that it will save or restore every tab in every situation.</p></section><section id="terms-section-15"><h2><span>15</span>Limitation of liability</h2><p>To the fullest extent permitted by law, [COMPANY / DEVELOPER NAME] will not be liable for indirect, incidental, special, consequential or punitive damages, or for lost data, lost profits or lost business, arising from your use of Tabfino. Our total liability for any claim is limited to [AMOUNT PAID BY YOU IN THE LAST 12 MONTHS, OR A FIXED AMOUNT]. Nothing in these Terms limits liability that cannot be limited by law.</p></section><section id="terms-section-16"><h2><span>16</span>Indemnity</h2><p>You agree to cover reasonable losses we suffer because you broke these Terms or misused Tabfino, to the extent the law allows. [CONFIRM WHETHER TO INCLUDE, THIS CLAUSE IS OFTEN OMITTED FOR CONSUMER PRODUCTS.]</p></section><section id="terms-section-17"><h2><span>17</span>Termination</h2><p>You may stop using Tabfino at any time by removing the extension. We may suspend or end your access if you breach these Terms, if required by law, or if we discontinue Tabfino. Sections that by nature should continue (such as intellectual property, disclaimers and liability) survive termination.</p></section><section id="terms-section-18"><h2><span>18</span>Changes to these terms</h2><p>We may update these Terms. We will post the new version here with a new “last updated” date and, for material changes, give clearer notice. Continued use after a change means you accept the updated Terms.</p></section><section id="terms-section-19"><h2><span>19</span>Governing law and disputes</h2><p>These Terms are governed by the laws of [JURISDICTION, e.g. India], without regard to conflict of law rules. Disputes will be resolved by [COURTS / VENUE / ARBITRATION SEAT], unless your local consumer law gives you the right to bring a claim elsewhere. We encourage you to contact us first to try to resolve any issue informally.</p></section><section id="terms-section-20"><h2><span>20</span>General</h2><ul><li><b>Entire agreement</b>: these Terms and the Privacy Policy are the whole agreement between us about Tabfino.</li><li><b>Severability</b>: if a part is unenforceable, the rest still applies.</li><li><b>No waiver</b>: not enforcing a term is not a waiver of it.</li><li><b>Assignment</b>: you may not transfer your rights; we may transfer ours in a business change.</li><li><b>Force majeure</b>: we are not liable for failures caused by events beyond our reasonable control.</li></ul></section><section id="terms-section-21"><h2><span>21</span>Contact us</h2><p>Questions about these Terms: [CONTACT EMAIL]. [POSTAL ADDRESS, if required.]</p></section><p class="draft body-6">Draft template, not legal advice. Fill in the bracketed details and have a qualified lawyer review it before publishing.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 404 -->
+<div data-view="notfound" hidden>
+  <div class="container nf view-pad">
+    <h1 class="heading-3">Page not found</h1>
+    <p class="body-3 muted" style="max-width:480px">The page you tried to open does not exist. It may have moved, or the link may be mistyped.</p>
+    <a class="btn button-md" href="#home"><svg class="i"><use href="#i-back"/></svg>Back to home</a>
+  </div>
+</div>
+
+</main>
+
+<footer class="site-foot">
+  <div class="container cols">
+    <div class="who">
+      <b class="title-2">Tabfino</b>
+      <span class="body-6 muted">A free Chrome extension that helps you return to your browser work.</span>
+      <span class="caption-2 muted">Tabfino saves browser metadata locally with your permission. Availability and features may vary by release.</span>
+      <span class="caption-2 muted" id="yr"></span>
+    </div>
+    <nav aria-label="Footer" class="body-5">
+      <a href="#home" data-foot="home">Home</a>
+      <a href="#faq">FAQ</a>
+      <a href="#privacy" data-foot="privacy">Privacy policy</a>
+      <a href="#terms" data-foot="terms">Terms and conditions</a>
+    </nav>
+  </div>
+</footer>
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Does Tabfino read the content of my pages?", "acceptedAnswer": {"@type": "Answer", "text": "No. It uses tab metadata such as titles and URLs. It does not read page text, messages or keystrokes."}}, {"@type": "Question", "name": "Where is my saved work stored?", "acceptedAnswer": {"@type": "Answer", "text": "In Chrome's local extension storage on your device. The current prototype does not upload or sync it to a Tabfino server."}}, {"@type": "Question", "name": "Will Tabfino slow Chrome down?", "acceptedAnswer": {"@type": "Answer", "text": "We have not published performance measurements yet, so we make no speed claim here. Tabfino works with tab titles, URLs and timestamps rather than page content, and you can pause memory or remove the extension at any time."}}, {"@type": "Question", "name": "Why not use bookmarks or tab groups?", "acceptedAnswer": {"@type": "Answer", "text": "Bookmarks and tab groups hold what you organize yourself. Tabfino groups related tabs into workflows, names each work session and remembers which tab was active. You can use them together."}}, {"@type": "Question", "name": "Can I open only one saved tab?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Select a saved tab to open just that page. Choose Continue work when you want to reopen every saved tab in the workflow."}}, {"@type": "Question", "name": "What does the inactivity reminder detect?", "acceptedAnswer": {"@type": "Answer", "text": "Chrome reports inactivity for the whole device. That signal is not limited to activity inside Chrome, so other device use can affect when a reminder appears."}}, {"@type": "Question", "name": "Can I stop Tabfino from remembering?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Pause memory in Settings. You can also exclude specific websites or delete saved activity."}}, {"@type": "Question", "name": "Does Tabfino work outside Chrome?", "acceptedAnswer": {"@type": "Answer", "text": "It is built as a Chrome extension and remembers browser tabs. It does not capture work in desktop apps."}}]}</script>
+<script>
+(function(){
+  var root=document.documentElement;
+  var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  root.classList.add("js");
+  var CHROME_STORE_URL="{{chrome_web_store_url}}";
+  var pending=CHROME_STORE_URL.indexOf("{{")===0;
+  var views=Array.prototype.slice.call(document.querySelectorAll("[data-view]"));
+  var titles={home:"Tabfino",privacy:"Privacy policy. Tabfino",terms:"Terms and conditions. Tabfino",notfound:"Page not found. Tabfino"};
+  var nav=document.getElementById("nav"), panel=document.getElementById("panel"), toggle=document.getElementById("toggle");
+  var main=document.getElementById("main");
+
+  /* store link */
+  Array.prototype.forEach.call(document.querySelectorAll("[data-cta]"),function(a){
+    if(!pending){ a.setAttribute("href",CHROME_STORE_URL); a.setAttribute("target","_blank"); a.setAttribute("rel","noopener"); }
+    else a.addEventListener("click",function(e){
+      e.preventDefault();
+      closeMenu(false);
+      Array.prototype.forEach.call(document.querySelectorAll("[data-cta-note]"),function(n){ n.textContent="The Chrome Web Store link has not been added yet."; });
+    });
+  });
+
+  /* menu */
+  function openMenu(){ nav.classList.add("open"); panel.classList.add("open"); toggle.setAttribute("aria-expanded","true"); toggle.setAttribute("aria-label","Close menu"); root.style.overflow="hidden"; }
+  function closeMenu(refocus){ if(!nav.classList.contains("open")) return; nav.classList.remove("open"); panel.classList.remove("open"); toggle.setAttribute("aria-expanded","false"); toggle.setAttribute("aria-label","Open menu"); root.style.overflow=""; if(refocus) toggle.focus(); }
+  toggle.addEventListener("click",function(){ nav.classList.contains("open")?closeMenu(false):openMenu(); });
+  panel.addEventListener("click",function(e){ if(e.target.closest&&e.target.closest("a")) closeMenu(false); });
+  document.addEventListener("keydown",function(e){ if(e.key==="Escape") closeMenu(true); });
+  window.addEventListener("resize",function(){ if(window.innerWidth>760) closeMenu(false); });
+
+  document.querySelector("[data-skip]").addEventListener("click",function(e){ e.preventDefault(); main.focus(); main.scrollIntoView({block:"start"}); });
+
+  /* routing by hash */
+  var spyLinks=Array.prototype.slice.call(document.querySelectorAll("[data-spy-link]"));
+  var footLinks=Array.prototype.slice.call(document.querySelectorAll("[data-foot]"));
+  function setCurrent(name){
+    footLinks.forEach(function(a){ if(a.getAttribute("data-foot")===name) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current"); });
+    if(name!=="home") spyLinks.forEach(function(a){ a.removeAttribute("aria-current"); });
+  }
+  function route(first){
+    var h=""; try{ h=decodeURIComponent((location.hash||"").slice(1)); }catch(e){}
+    var name="home", target=null;
+    if(h===""||h==="home") name="home";
+    else if(h==="privacy"||h==="terms") name=h;
+    else if(h==="get-tabfino"||h==="main"){ return; }
+    else{
+      var el=document.getElementById(h);
+      var v=el&&el.closest?el.closest("[data-view]"):null;
+      if(el&&v){ name=v.getAttribute("data-view"); target=el; }
+      else name="notfound";
+    }
+    views.forEach(function(v){ v.hidden=v.getAttribute("data-view")!==name; });
+    document.title=titles[name];
+    setCurrent(name);
+    closeMenu(false);
+    if(target){ target.scrollIntoView({behavior:(reduce||first)?"auto":"smooth",block:"start"}); }
+    else window.scrollTo(0,0);
+    if(name==="home") tagline.update();
+  }
+  window.addEventListener("hashchange",function(){ route(false); });
+
+  /* scroll reveal, once */
+  var revealEls=Array.prototype.slice.call(document.querySelectorAll(".reveal"));
+  if("IntersectionObserver" in window){
+    var rio=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add("in"); rio.unobserve(en.target); } });
+    },{threshold:0.12,rootMargin:"0px 0px -8% 0px"});
+    revealEls.forEach(function(el){ rio.observe(el); });
+  } else revealEls.forEach(function(el){ el.classList.add("in"); });
+
+  /* nav scrollspy */
+  if("IntersectionObserver" in window){
+    var sio=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(!en.isIntersecting) return;
+        var id=en.target.getAttribute("data-spy");
+        spyLinks.forEach(function(a){ if(a.getAttribute("data-spy-link")===id) a.setAttribute("aria-current","true"); else a.removeAttribute("aria-current"); });
+      });
+    },{rootMargin:"-40% 0px -55% 0px"});
+    Array.prototype.forEach.call(document.querySelectorAll("[data-spy]"),function(s){ sio.observe(s); });
+  }
+
+  /* tagline reveal: words activate one at a time as the block scrolls into view */
+  var tagline=(function(){
+    var el=document.querySelector("[data-tagline]");
+    var words=[], active=0, ticking=false, on=false;
+    var text=el.textContent.replace(/\s+/g," ").trim().split(" ");
+    el.setAttribute("aria-label",text.join(" "));
+    el.textContent="";
+    text.forEach(function(t,i){
+      var s=document.createElement("span"); s.className="w"; s.setAttribute("aria-hidden","true"); s.textContent=t;
+      el.appendChild(s); if(i<text.length-1) el.appendChild(document.createTextNode(" "));
+      words.push(s);
+    });
+    function paint(n){ active=n; words.forEach(function(w,i){ if(i<n) w.classList.add("on"); else w.classList.remove("on"); }); }
+    function update(){
+      ticking=false;
+      if(reduce){ paint(words.length); return; }
+      var r=el.getBoundingClientRect(), vh=window.innerHeight||600;
+      var start=vh*0.85, end=vh*0.45-r.height;
+      var p=(start-r.top)/(start-end); p=Math.max(0,Math.min(1,p));
+      var n=Math.round(p*words.length);
+      if(n!==active) paint(n);
+    }
+    function onScroll(){ if(!ticking){ ticking=true; window.requestAnimationFrame(update); } }
+    if(reduce){ paint(words.length); }
+    else if("IntersectionObserver" in window){
+      new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          if(en.isIntersecting&&!on){ on=true; window.addEventListener("scroll",onScroll,{passive:true}); update(); }
+          else if(!en.isIntersecting&&on){ on=false; window.removeEventListener("scroll",onScroll); update(); }
+        });
+      },{rootMargin:"20% 0px 20% 0px"}).observe(el);
+    } else paint(words.length);
+    return {update:function(){ if(el.offsetParent!==null) update(); }};
+  })();
+
+  document.getElementById("yr").textContent="© "+new Date().getFullYear()+" Tabfino";
+  route(true);
+})();
+</script>
+
+</body></html>

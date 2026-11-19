@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <title>Tabfino — Interactive Preview</title>
+    <link rel="icon" type="image/svg+xml" href="tabfino-icon.svg" />
+    <link rel="stylesheet" href="sidepanel.css" />
+    <style>
+      /* The real panel owns the whole viewport; here one strip sits above it,
+         so the shell takes the space that is left. */
+      html, body { height: 100%; }
+      body { display: flex; width: min(100%, 430px); flex-direction: column; margin: 0 auto; border-inline: 1px solid var(--line); }
+      #app { min-height: 0; flex: 1; }
+      .preview-tag { flex: 0 0 auto; padding: 6px 12px; color: var(--ink-faint); background: var(--surface-sunken); border-bottom: 1px solid var(--line); text-align: center; font-size: 10px; font-weight: 600; letter-spacing: .04em; }
+    </style>
+  </head>
+  <body>
+    <div class="preview-tag">INTERACTIVE PREVIEW · SAMPLE DATA</div>
+    <div id="app" class="app-shell"></div>
+    <script src="shared.js"></script>
+    <script src="preview-bridge.js"></script>
+    <script src="sidepanel.js"></script>
+  </body>
+</html>

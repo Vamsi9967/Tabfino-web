@@ -1,0 +1,6 @@
+{
+  "name": "Tabfino",
+  "description": "Tabfino is a free Chrome extension that remembers the tabs you choose to save, groups them into workflows, and helps you pick up your browser work after an interruption.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

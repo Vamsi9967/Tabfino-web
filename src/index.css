@@ -1,0 +1,326 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Geist", system-ui, -apple-system, sans-serif;
+  --font-sans: "Geist", system-ui, -apple-system, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+    --bg-canvas: #ffffff;
+    --bg-surface: #f8fafc;
+    --border-hairline: #e2e8f0;
+    --text-ink: #0f172a;
+    --text-muted: #475569;
+    --accent-cobalt: #2563eb;
+    --accent-cobalt-hover: #1d4ed8;
+    --accent-soft: #eff6ff;
+  }
+
+  html {
+    background-color: var(--bg-canvas);
+    color: var(--text-ink);
+    font-family: var(--font-sans);
+    scroll-behavior: auto;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--bg-canvas);
+    color: var(--text-ink);
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+
+  p, li {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent-cobalt);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+}
+
+/* Subtle geometric light grid on white background sections (flat surfaces only) */
+.subtle-white-grid {
+  background-image:
+    linear-gradient(to right, rgba(226, 232, 240, 0.42) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(226, 232, 240, 0.42) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* Soft ambient studio card shadow */
+.ambient-card-shadow {
+  box-shadow:
+    0 20px 45px -15px rgba(15, 23, 42, 0.08),
+    0 4px 16px -4px rgba(37, 99, 235, 0.06);
+}
+
+.ambient-blue-shadow {
+  box-shadow:
+    0 24px 54px -16px rgba(37, 99, 235, 0.24),
+    0 8px 20px -6px rgba(15, 23, 42, 0.12);
+}
+
+/* Soft pastel sky-white wash for the unified CTA + Footer shell */
+.cta-footer-shell {
+  background:
+    radial-gradient(circle at 12% 30%, rgba(199, 210, 254, 0.55) 0%, transparent 50%),
+    radial-gradient(circle at 88% 45%, rgba(186, 230, 253, 0.6) 0%, transparent 52%),
+    linear-gradient(180deg, #f8fbff 0%, #eff6ff 60%, #e8f4ff 100%);
+}
+
+@keyframes tabfino-border-spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@layer components {
+  /* Named B1 Typography Styles */
+  .heading-1 {
+    font-size: 3.75rem;
+    line-height: 1;
+    font-weight: 600;
+  }
+  .heading-2 {
+    font-size: 3rem;
+    line-height: 1;
+    font-weight: 600;
+  }
+  .heading-3 {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+    font-weight: 600;
+  }
+  .heading-4 {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    font-weight: 600;
+  }
+  .heading-5 {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 600;
+  }
+  .heading-6 {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+  }
+
+  .title-1 {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    font-weight: 500;
+  }
+  .title-2 {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 500;
+  }
+  .title-3 {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 500;
+  }
+  .title-4 {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+  }
+  .title-5 {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 500;
+  }
+
+  .body-1 {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 600;
+  }
+  .body-2 {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 500;
+  }
+  .body-3 {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 400;
+  }
+  .body-4 {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 600;
+  }
+  .body-5 {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+  }
+  .body-6 {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 400;
+  }
+
+  .button-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+  }
+  .button-md {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 600;
+  }
+  .button-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 600;
+  }
+  .button-xsm {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 600;
+  }
+
+  .caption-1 {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+  }
+  .caption-2 {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 400;
+  }
+  .caption-3 {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 600;
+  }
+  .caption-4 {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 500;
+  }
+  .caption-5 {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 400;
+  }
+
+  /* B7 Scroll reveal: 32px rise + opacity fade on base deceleration curve */
+  .reveal-section {
+    opacity: 0;
+    transform: translateY(32px);
+    transition:
+      opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .reveal-section[data-visible="true"] {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Custom rotating blue-border primary action plate — uniform 48px height */
+  .btn-tabfino {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: inline-flex;
+    height: 48px;
+    min-height: 48px;
+    padding: 0 24px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    border: 0;
+    background: rgba(11, 18, 32, 0.20);
+    box-shadow:
+      0 4px 10px -1px rgba(11, 18, 32, 0.16),
+      0 0 6px 1px rgba(0, 0, 0, 0.12);
+    color: #ffffff;
+    transition:
+      opacity 300ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .btn-tabfino::before {
+    content: "";
+    position: absolute;
+    z-index: -2;
+    left: 50%;
+    top: 50%;
+    width: max(180%, 240px);
+    aspect-ratio: 1 / 1;
+    background: conic-gradient(
+      from 180deg,
+      rgba(63, 149, 255, 0) 0deg,
+      rgba(63, 149, 255, 0) 95deg,
+      rgba(96, 165, 250, 0.45) 140deg,
+      #3f95ff 185deg,
+      #60a5fa 225deg,
+      rgba(96, 165, 250, 0) 275deg,
+      rgba(63, 149, 255, 0) 360deg
+    );
+    transform: translate(-50%, -50%) rotate(0deg);
+    animation: tabfino-border-spin 3.2s linear infinite;
+    pointer-events: none;
+  }
+
+  .btn-tabfino::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: 3px;
+    border-radius: 12px;
+    background: #0b1220;
+    transition: background-color 300ms cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+  }
+
+  .btn-tabfino:hover {
+    box-shadow:
+      0 6px 14px -2px rgba(63, 149, 255, 0.20),
+      0 4px 10px -1px rgba(11, 18, 32, 0.18);
+  }
+
+  .btn-tabfino:hover::after {
+    background: #131d33;
+  }
+
+  .btn-tabfino:active {
+    transform: scale(0.98);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-tabfino::before {
+    animation: none !important;
+  }
+
+  .reveal-section {
+    transform: none !important;
+    transition: opacity 300ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+  }
+
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 1ms !important;
+    transition-delay: 0ms !important;
+  }
+}

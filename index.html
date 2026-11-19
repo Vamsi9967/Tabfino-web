@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Tabfino: Return to your browser work</title>
+    <meta
+      name="description"
+      content="Tabfino is a free Chrome extension that remembers the tabs you choose to save, groups them into workflows, and helps you pick up your browser work after an interruption."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Tabfino: A free Chrome extension to return to your browser work" />
+    <meta
+      property="og:description"
+      content="Reopen one page or a whole session after an interruption. Your browser metadata stays on your device."
+    />
+    <meta property="og:image" content="/assets/aistudio/Logo-Icon_03936385.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/assets/aistudio/Logo-Icon_03936385.svg"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Geist:wght@400;500;600&display=swap"
+    />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Does Tabfino read the content of my pages?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. It uses tab metadata such as titles and URLs. It does not read page text, messages or keystrokes."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Where is my saved work stored?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "In Chrome's local extension storage on your device. The current prototype does not upload or sync it to a Tabfino server."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Will Tabfino slow Chrome down?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "We have not published performance measurements yet, so we make no speed claim here. Tabfino works with tab titles, URLs and timestamps rather than page content, and you can pause memory or remove the extension at any time."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why not use bookmarks or tab groups?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Bookmarks and tab groups hold what you organize yourself. Tabfino groups related tabs into workflows, names each work session and remembers which tab was active. You can use them together."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I open only one saved tab?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Select a saved tab to open just that page. Choose Continue work when you want to reopen every saved tab in the workflow."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What does the inactivity reminder detect?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Chrome reports inactivity for the whole device. That signal is not limited to activity inside Chrome, so other device use can affect when a reminder appears."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I stop Tabfino from remembering?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Pause memory in Settings. You can also exclude specific websites or delete saved activity."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does Tabfino work outside Chrome?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It is built as a Chrome extension and remembers browser tabs. It does not capture work in desktop apps."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body class="bg-white text-slate-900 antialiased selection:bg-blue-100 selection:text-blue-900">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
